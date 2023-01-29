@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import React, { useEffect, useState } from "react";
 import { Button } from "@material-ui/core";
 
@@ -31,14 +31,7 @@ function App() {
         flexDirection: "column",
       }}
     >
-      <h1
-        style={{
-          fontWeight: "600",
-          fontSize: 55,
-          textAlign: "center",
-          color: "white",
-        }}
-      >
+      <h1>
         <b>Pokedex</b>
       </h1>
       <div
