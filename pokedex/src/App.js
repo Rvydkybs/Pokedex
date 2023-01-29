@@ -1,5 +1,6 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
+import { Button } from "@material-ui/core";
 
 let pokemonIndex = "";
 
@@ -60,7 +61,7 @@ function App() {
                   borderWidth: 2,
                   backgroundColor: "#3c6186",
                   borderColor: "#3c6186",
-                  marginLeft: 50,
+                  marginTop: 30,
                 }}
               >
                 <img
@@ -69,9 +70,19 @@ function App() {
                   className="imageContainer"
                   src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index}.png`}
                 />
-                <a style={{ margin: 20, fontSize: 25, color: "white" }}>
-                  <b>{item.name}</b>
-                </a>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "baseline",
+                    flexDirection: "column",
+                  }}
+                >
+                  <a style={{ margin: 20, fontSize: 25, color: "white" }}>
+                    <b>{item.name}</b>
+                  </a>
+                  <Button variant="contained">View Detail</Button>
+                </div>
               </div>
             );
           })}
