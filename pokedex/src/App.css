@@ -1,11 +1,11 @@
 .container {
-  width: 100;
-  height: 200;
+  flex: 1;
+}
+.innerContainer {
+  background-color: pink;
 }
 .textContainer {
-  text-align: center;
 }
 
 .imageContainer {
-  text-align: center;
 }

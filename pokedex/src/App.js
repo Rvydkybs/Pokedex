@@ -1,7 +1,6 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 
-const { name, url } = "https://pokeapi.co/api/v2/pokemon?limit=150";
 let pokemonIndex = "";
 
 function App() {
@@ -20,35 +19,58 @@ function App() {
       "https://pokeapi.co/api/v2/pokemon?limit=150".split("/").length - 2
     ];
     {
-      console.log("fkkkkkkkkkkkkkkkkkkkkkkkk", pokemonIndex);
     }
   }, []);
-  console.log("first", pokemons);
   return (
     <div
       style={{
-        alignItems: "center",
-        justifyContent: "center",
+        backgroundColor: "#0C0A3E",
+        flex: 1,
       }}
     >
-      {pokemons.pokeItems.results &&
-        pokemons.pokeItems.results.map((item, index) => {
-          return (
-            <div className="container">
-              <div className="textContainer">
-                <a style={{ backgroundColor: "blue" }}>{item.name}</a>
-              </div>
-              <div className="imageContainer">
+      <h1
+        style={{
+          fontWeight: "600",
+          fontSize: 55,
+          textAlign: "center",
+          color: "white",
+        }}
+      >
+        <b>Pokedex</b>
+      </h1>
+      <div
+        style={{
+          margin: 20,
+
+          width: 400,
+        }}
+      >
+        {pokemons.pokeItems.results &&
+          pokemons.pokeItems.results.map((item, index) => {
+            return (
+              <div
+                style={{
+                  margin: 15,
+                  padding: 15,
+                  width: 400,
+                  display: "flex",
+                  justifyContent: "flex-start",
+                }}
+              >
                 <img
-                  style={{ backgroundColor: "pink" }}
+                  width={200}
+                  height={200}
+                  className="imageContainer"
                   src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index}.png`}
                 />
+                <a style={{ margin: 20, fontSize: 25, color: "white" }}>
+                  <b>{item.name}</b>
+                </a>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+      </div>
     </div>
   );
 }
-
 export default App;
