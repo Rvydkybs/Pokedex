@@ -40,9 +40,10 @@ function App() {
       </h1>
       <div
         style={{
-          margin: 20,
-
-          width: 400,
+          width: "100%",
+          flexDirection: "column",
+          display: "flex",
+          alignItems: "center",
         }}
       >
         {pokemons.pokeItems.results &&
@@ -54,7 +55,12 @@ function App() {
                   padding: 15,
                   width: 400,
                   display: "flex",
-                  justifyContent: "flex-start",
+                  justifyContent: "center",
+                  borderRadius: 12,
+                  borderWidth: 2,
+                  backgroundColor: "#3c6186",
+                  borderColor: "#3c6186",
+                  marginLeft: 50,
                 }}
               >
                 <img
