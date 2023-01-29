@@ -27,6 +27,8 @@ function App() {
       style={{
         backgroundColor: "#0C0A3E",
         flex: 1,
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <h1
