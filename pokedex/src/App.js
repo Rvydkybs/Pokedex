@@ -14,28 +14,47 @@ function App() {
     isDataLoaded: false,
   });
   const [currentPage, setCurrentPage] = useState(1);
+  const [pokemonIndex, setPokemonIndex] = useState();
 
   useEffect(() => {
-    //using two useEffects?
     fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
       .then((res) => res.json())
       .then((json) => {
         setPokemon({ pokeItems: json, isDataLoaded: true });
+        console.log("deneme2", pokemons.pokeItems);
       });
+    console.log("deneme", pokemons.pokeItems);
   }, []);
 
   const currentTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
+    var index = [];
+    index =
+      pokemons.pokeItems.results &&
+      pokemons.pokeItems.results.slice(firstPageIndex, lastPageIndex);
+    index &&
+      index.map((item, index) => {
+        //if i had to use original url for images;
+        // var url = "https://pokeapi.co/api/v2/pokemon/";
+        // url.substring(0, url.length - 1); //delete '/' from url to add .png
+        // const imageUrl = url + ".png";
+        // imageUrl.split(" ");
+
+        setPokemonIndex(
+          `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.url.slice(
+            34,
+            36
+          )}.png`
+        );
+        console.log("dddd", item.url.slice(34, 36));
+      });
+
     return (
       pokemons.pokeItems.results &&
       pokemons.pokeItems.results.slice(firstPageIndex, lastPageIndex)
     );
   }, [currentPage]);
-
-  const ViewDetail = () => {
-    return <Link to="./Components/DetailPage.js" />;
-  };
 
   return (
     <div
@@ -78,7 +97,7 @@ function App() {
                   width={200}
                   height={200}
                   className="imageContainer"
-                  src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index}.png`}
+                  src={pokemonIndex}
                 />
                 <div
                   style={{
