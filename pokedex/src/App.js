@@ -7,6 +7,8 @@ import { Button } from "@mui/material";
 import Pagination from "./Components/Pagination";
 
 let PageSize = 10;
+var index,
+  indexList = [];
 
 function App() {
   const [pokemons, setPokemon] = useState({
@@ -26,10 +28,20 @@ function App() {
     console.log("deneme", pokemons.pokeItems);
   }, []);
 
+  useEffect(() => {
+    fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
+      .then((res) => res.json())
+      .then((json) => {
+        setPokemon({ pokeItems: json, isDataLoaded: true });
+        console.log("deneme2", pokemons.pokeItems);
+      });
+    console.log("deneme", pokemons.pokeItems);
+  }, [currentPage]);
+
   const currentTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
-    var index = [];
+
     index =
       pokemons.pokeItems.results &&
       pokemons.pokeItems.results.slice(firstPageIndex, lastPageIndex);
@@ -41,13 +53,13 @@ function App() {
         // const imageUrl = url + ".png";
         // imageUrl.split(" ");
 
-        setPokemonIndex(
+        indexList.push(
           `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.url.slice(
             34,
             36
           )}.png`
         );
-        console.log("dddd", item.url.slice(34, 36));
+        console.log("dddd", indexList);
       });
 
     return (
@@ -77,7 +89,9 @@ function App() {
         }}
       >
         {currentTableData &&
+          indexList &&
           currentTableData.map((item, index) => {
+            const linkContent = indexList[index];
             return (
               <div
                 style={{
@@ -97,7 +111,7 @@ function App() {
                   width={200}
                   height={200}
                   className="imageContainer"
-                  src={pokemonIndex}
+                  src={linkContent}
                 />
                 <div
                   style={{
