@@ -2,7 +2,7 @@ import "./App.scss";
 import React, { useEffect, useState, useMemo } from "react";
 // import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, rgbToHex } from "@mui/material";
 
 import Pagination from "./Components/Pagination";
 
@@ -36,6 +36,7 @@ function App() {
         console.log("deneme2", pokemons.pokeItems);
       });
     console.log("deneme", pokemons.pokeItems);
+    //indexList.splice(0, indexList.length);
   }, [currentPage]);
 
   const currentTableData = useMemo(() => {
@@ -71,7 +72,7 @@ function App() {
   return (
     <div
       style={{
-        backgroundColor: "#0C0A3E",
+        backgroundColor: "	#eeeeee",
         flex: 1,
         display: "flex",
         flexDirection: "column",
