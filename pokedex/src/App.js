@@ -1,8 +1,8 @@
 import "./App.scss";
 import React, { useEffect, useState, useMemo } from "react";
-// import { Button } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import { Button, rgbToHex } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 
 import Pagination from "./Components/Pagination";
 
@@ -16,28 +16,15 @@ function App() {
     isDataLoaded: false,
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const [pokemonIndex, setPokemonIndex] = useState();
+  const [inputText, setInputText] = useState("");
 
   useEffect(() => {
     fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
       .then((res) => res.json())
       .then((json) => {
         setPokemon({ pokeItems: json, isDataLoaded: true });
-        console.log("deneme2", pokemons.pokeItems);
       });
-    console.log("deneme", pokemons.pokeItems);
   }, []);
-
-  useEffect(() => {
-    fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
-      .then((res) => res.json())
-      .then((json) => {
-        setPokemon({ pokeItems: json, isDataLoaded: true });
-        console.log("deneme2", pokemons.pokeItems);
-      });
-    console.log("deneme", pokemons.pokeItems);
-    //indexList.splice(0, indexList.length);
-  }, [currentPage]);
 
   const currentTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
@@ -48,19 +35,12 @@ function App() {
       pokemons.pokeItems.results.slice(firstPageIndex, lastPageIndex);
     index &&
       index.map((item, index) => {
-        //if i had to use original url for images;
-        // var url = "https://pokeapi.co/api/v2/pokemon/";
-        // url.substring(0, url.length - 1); //delete '/' from url to add .png
-        // const imageUrl = url + ".png";
-        // imageUrl.split(" ");
-
         indexList.push(
           `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.url.slice(
             34,
             36
           )}.png`
         );
-        console.log("dddd", indexList);
       });
 
     return (
@@ -69,6 +49,24 @@ function App() {
     );
   }, [currentPage]);
 
+  let navigate = useNavigate();
+  const routeChange = () => {
+    let path = `http://localhost:3000/Components/DetailPage.js`;
+    navigate(path);
+  };
+
+  let inputHandler = (e) => {
+    //convert input text to lower case
+    var lowerCase = e.target.value.toLowerCase();
+    setInputText(lowerCase);
+  };
+  const filteredData =
+    inputText === ""
+      ? currentTableData
+      : pokemons.pokeItems.results &&
+        pokemons.pokeItems.results.filter((el) => {
+          return el.name.toLowerCase().includes(inputText);
+        });
   return (
     <div
       style={{
@@ -76,11 +74,23 @@ function App() {
         flex: 1,
         display: "flex",
         flexDirection: "column",
+        height: "100%",
+        alignItems: "center",
       }}
     >
       <h1>
         <b>Pokedex</b>
       </h1>
+
+      <div className="search">
+        <TextField
+          id="outlined-basic"
+          variant="outlined"
+          fullWidth
+          label="Search"
+          onChange={inputHandler}
+        />
+      </div>
       <div
         style={{
           width: "100%",
@@ -89,10 +99,9 @@ function App() {
           alignItems: "center",
         }}
       >
-        {currentTableData &&
-          indexList &&
-          currentTableData.map((item, index) => {
-            const linkContent = indexList[index];
+        {filteredData &&
+          filteredData.map((item, index) => {
+            const linkContent = indexList[index]; //for loop to array at the same time
             return (
               <div
                 style={{
@@ -130,6 +139,9 @@ function App() {
                     target="_self"
                     variant="outlined"
                     style={{ color: "white" }}
+                    onClick={() => {
+                      routeChange();
+                    }}
                   >
                     View Detail
                   </Button>
@@ -137,15 +149,19 @@ function App() {
               </div>
             );
           })}
-        <Pagination
-          className="pagination-bar"
-          currentPage={currentPage}
-          totalCount={
-            pokemons.pokeItems.results ? pokemons.pokeItems.results.length : 0
-          }
-          pageSize={PageSize}
-          onPageChange={(page) => setCurrentPage(page)}
-        />
+        {inputText.length > 0 ? (
+          ""
+        ) : (
+          <Pagination
+            className="pagination-bar"
+            currentPage={currentPage}
+            totalCount={
+              pokemons.pokeItems.results ? pokemons.pokeItems.results.length : 0
+            }
+            pageSize={PageSize}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
+        )}
       </div>
     </div>
   );
