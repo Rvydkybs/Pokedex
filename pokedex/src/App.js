@@ -3,8 +3,8 @@ import React, { useEffect, useState, useMemo } from "react";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-
 import Pagination from "./Components/Pagination";
+import NoResult from "../src/Components/NoResult";
 
 let PageSize = 10;
 var index,
@@ -67,14 +67,15 @@ function App() {
         pokemons.pokeItems.results.filter((el) => {
           return el.name.toLowerCase().includes(inputText);
         });
+
   return (
     <div
       style={{
-        backgroundColor: "	#eeeeee",
+        backgroundColor: "#eeeeee",
         flex: 1,
+        minHeight: window.innerHeight + 200,
         display: "flex",
         flexDirection: "column",
-        height: "100%",
         alignItems: "center",
       }}
     >
@@ -97,9 +98,10 @@ function App() {
           flexDirection: "column",
           display: "flex",
           alignItems: "center",
+          marginTop: 50,
         }}
       >
-        {filteredData &&
+        {filteredData && filteredData.length > 0 ? (
           filteredData.map((item, index) => {
             const linkContent = indexList[index]; //for loop to array at the same time
             return (
@@ -148,7 +150,10 @@ function App() {
                 </div>
               </div>
             );
-          })}
+          })
+        ) : (
+          <NoResult />
+        )}
         {inputText.length > 0 ? (
           ""
         ) : (
