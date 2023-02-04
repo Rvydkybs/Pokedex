@@ -19,11 +19,15 @@ function App() {
   const [inputText, setInputText] = useState("");
 
   useEffect(() => {
-    fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
-      .then((res) => res.json())
-      .then((json) => {
-        setPokemon({ pokeItems: json, isDataLoaded: true });
-      });
+    const fetchData = async () => {
+      fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
+        .then((res) => res.json())
+        .then((json) => {
+          setPokemon({ pokeItems: json, isDataLoaded: true });
+        });
+      return pokemons;
+    };
+    fetchData().catch(console.error);
   }, []);
 
   const currentTableData = useMemo(() => {
